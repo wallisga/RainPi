@@ -8,12 +8,9 @@ app = Flask(__name__)
 @app.route("/")
 def landing():
 
-    conn = engine.connection(appconfig.sql['name'])
+    conn = connection(appconfig.sql['name'])
     data = conn.execute("SELECT * FROM "+ appconfig.sql['table'] +";")
-    data = []
-    for i in range(-6,-1):
-        amount+=data[i][1]
-    return "Rainfall in Last Five Minutes: " + str(amount) + " mm of Rain"
+    return "Sum of All Rainfall Recorded: " + str(sum(i[1] for i in data)/len(data)) + " mm of Rain"
 
 if __name__=="__main__":
     app.run()

@@ -4,3 +4,6 @@
 config*
 *.config
 conf
+
+#ignores pyc
+*.pyc

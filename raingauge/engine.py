@@ -8,16 +8,16 @@ class connection():
 
     def __init__(self, db):
         self.conn = sqlite3.connect(db)
-        self.c = conn.cursor()
+        self.c = self.conn.cursor()
         self.cache = None
 
-     def execute(statement):
+    def execute(self, statement):
         self.c.execute(statement)
-        self.cache = c.fetchall()
-        return self.cache
+        self.cache = self.c.fetchall()
+        return self.read_cache()
 
-    def read_cache():
-        return [i for i in self.cache]
+    def read_cache(self):
+        return [[i[0], i[1]] for i in self.cache]
 
 def startEmail(recp):
         msg = EmailMessage()

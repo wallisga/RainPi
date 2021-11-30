@@ -6,18 +6,21 @@ from email.message import EmailMessage
 
 class connection():
 
-    def __init__(self, db):
-        self.conn = sqlite3.connect(db)
-        self.c = self.conn.cursor()
-        self.cache = None
+    def __init__(self):
+        self.__db_connection = sqlite3.connect(appconfig.sql['name'])
 
-    def execute(self, statement):
-        self.c.execute(statement)
-        self.cache = self.c.fetchall()
-        return self.read_cache()
+    def __del__(self):
+        self._disconnect()
+ 
+    def _execute(self, statement, values=None):
+        statements = ["SELECT * FROM "+ appconfig.sql['table'] +";", "INSERT INTO "+ appconfig.sql['table'] +" VALUES (:timestamp, :amount);"]
+        cur = self.__db_connection.cursor()
+        print(statements[statement], values)
+        cur.execute(statements[statement])
+        return [[i[0], i[1]] for i in cur.fetchall()]
 
-    def read_cache(self):
-        return [[i[0], i[1]] for i in self.cache]
+    def _disconnect(self):
+        self.__db_connection.close()
 
 def startEmail(recp):
         msg = EmailMessage()

@@ -1,7 +1,7 @@
 # Specify filepatterns you want git to ignore.
 
 #ignores config files
-config*
+*config*
 *.config
 conf
 

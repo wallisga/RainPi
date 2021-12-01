@@ -26,7 +26,7 @@ def get_rainfall():
 def add_rainfall():
     try:
         if check_token(request.headers['X_KEY_X']):
-            if request.get_json()['timestamp'] < time.time() and isinstance(request.get_json()['amount'], float):
+            if isinstance(request.get_json()['timestamp'], int) and isinstance(request.get_json()['amount'], float):
                 conn = connection()
                 result = conn._execute(1, request.get_json())
                 del conn        

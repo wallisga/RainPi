@@ -44,7 +44,7 @@ while True:
         if response.status_code != 204:
                 print(response.status_code)
                 print(response.text)      
-        rain = 0
+        rain = 0.0
         time.sleep(60)
 
 # close the log file and exit nicely

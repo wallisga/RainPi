@@ -2,7 +2,7 @@
 #service.py
 import RPi.GPIO as GPIO
 import appconfig
-import engine
+import requests
 import time
 
 raining = False
@@ -39,11 +39,12 @@ while True:
 
         line = "%i, %f" % (time.time(), rain)
         print(line)
-        db = engine.connection(appconfig.sql['name'])
-        db.execute("INSERT INTO "+ appconfig.sql['table'] +" VALUES ("+str(line)+")")
-        db.conn.commit()
-        db.conn.close()
-        del db
+        ###This will be replaced with request to RainPi API and will require an API Key to authenticate.
+        #db = engine.connection(appconfig.sql['name'])
+        #db.execute(1, str(line))
+        #db.conn.commit()
+        #db.conn.close()
+        #del db
         rain = 0
         time.sleep(60)
 

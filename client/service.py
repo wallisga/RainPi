@@ -19,7 +19,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # variable to keep track of how much rain
-rain = 0
+rain = 0.0
 rainstart = time.time()
 # the call back function for each bucket tip
 def cb(channel):

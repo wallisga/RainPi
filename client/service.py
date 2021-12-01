@@ -8,7 +8,7 @@ import json
 
 #Initial variables
 raining = False
-headers=piconfig['key']
+headers=piconfig.key
 headers['Content-Type'] = 'application/json'
 # this many mm per bucket tip
 CALIBRATION = 0.2794
@@ -40,7 +40,7 @@ while True:
         #The third parameter should be replaced with pi_id. For now it is 1.
         line = "%i, %f, %i" % (time.time(), rain, 1)
         print(line)
-        response = requests.request("POST", piconfig['url'], headers=headers, payload=json.dumps({'timestamp': time.time(), 'amount': rain, 'pi_id': piconfig['pi_id']}))
+        response = requests.request("POST", piconfig.url, headers=headers, payload=json.dumps({'timestamp': time.time(), 'amount': rain, 'pi_id': piconfig.pi_id}))
         if response.status_code != 204:
                 print(response.status_code)
                 print(response.text)      

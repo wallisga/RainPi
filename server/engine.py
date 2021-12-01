@@ -13,9 +13,8 @@ class connection():
         self._disconnect()
  
     def _execute(self, statement, values=None):
-        statements = ["SELECT * FROM "+ appconfig.sql['table'] +";", "INSERT INTO "+ appconfig.sql['table'] +" VALUES (:timestamp, :amount);"]
+        statements = ["SELECT * FROM "+ appconfig.sql['data'] +";", "INSERT INTO "+ appconfig.sql['data'] +" VALUES (:timestamp, :amount);"]
         cur = self.__db_connection.cursor()
-        print(statements[statement], values)
         cur.execute(statements[statement])
         return [[i[0], i[1]] for i in cur.fetchall()]
 

@@ -1,4 +1,3 @@
-# save this as app.py
 from flask import Flask, request, jsonify, views
 from engine import connection
 import time
@@ -11,21 +10,31 @@ def landing():
     return "WELCOME TO RAINPI"
 
 @app.route("/rainfall/")
-def get():
-    if check_token(request.headers['X_KEY_X']):
-        conn = connection()
-        result = conn._execute(0)
-        del conn
-        return jsonify(result)
-    else:
-        return '', 400
+def get_rainfall():
+    try:
+        if check_token(request.headers['X_KEY_X']):
+            conn = connection()
+            result = conn._execute(0)
+            del conn
+            return jsonify(result)
+        else:
+            return 'Invalid key', 401
+    except KeyError as e:
+        return 'Key not provided', 400
 
 @app.route("/rainfall/", methods=["POST"])
-def post():
-    if request.get_json()['timestamp'] < time.time() and isinstance(request.get_json()['amount'], float):
-        conn = connection()
-        result = conn._execute(1, request.get_json())
-        del conn        
-        return '', 204
-    else:
-        return '', 400
+def add_rainfall():
+    try:
+        if check_token(request.headers['X_KEY_X']):
+            if request.get_json()['timestamp'] < time.time() and isinstance(request.get_json()['amount'], float):
+                conn = connection()
+                result = conn._execute(1, request.get_json())
+                del conn        
+                return '', 204
+            else:
+                return 'Bad payload', 400
+        else:
+            return 'Invalid key', 401
+    except KeyError as e:
+        print(e)
+        return 'Key not provided', 400

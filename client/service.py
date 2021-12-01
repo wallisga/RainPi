@@ -1,12 +1,15 @@
 #!/usr/bin/python3
 #service.py
 import RPi.GPIO as GPIO
-import appconfig
+import piconfig
 import requests
 import time
+import json
 
+#Initial variables
 raining = False
-
+headers=piconfig['key']
+headers['Content-Type'] = 'application/json'
 # this many mm per bucket tip
 CALIBRATION = 0.2794
 # which GPIO pin the gauge is connected to
@@ -31,20 +34,16 @@ while True:
         if rain > 0 and raining == False:
                 raining = True
                 rainstart = time.time()
-                engine.startEmail(appconfig['destination'])
         elif rain == 0 and raining == True:
                 if (time.time()-rainstart) > 360:
                         raining = False
-                        engine.endEmail(appconfig['destination'])
-
-        line = "%i, %f" % (time.time(), rain)
+        #The third parameter should be replaced with pi_id. For now it is 1.
+        line = "%i, %f, %i" % (time.time(), rain, 1)
         print(line)
-        ###This will be replaced with request to RainPi API and will require an API Key to authenticate.
-        #db = engine.connection(appconfig.sql['name'])
-        #db.execute(1, str(line))
-        #db.conn.commit()
-        #db.conn.close()
-        #del db
+        response = requests.request("POST", piconfig['url'], headers=headers, payload=json.dumps({'timestamp': time.time(), 'amount': rain, 'pi_id': piconfig['pi_id']}))
+        if response.status_code != 204:
+                print(response.status_code)
+                print(response.text)      
         rain = 0
         time.sleep(60)
 

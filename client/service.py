@@ -19,7 +19,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # variable to keep track of how much rain
-rain = 0
+rain = 0.0
 rainstart = time.time()
 # the call back function for each bucket tip
 def cb(channel):
@@ -44,7 +44,7 @@ while True:
         if response.status_code != 204:
                 print(response.status_code)
                 print(response.text)      
-        rain = 0
+        rain = 0.0
         time.sleep(60)
 
 # close the log file and exit nicely

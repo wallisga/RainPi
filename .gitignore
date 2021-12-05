@@ -7,3 +7,6 @@ conf
 
 #ignores pyc
 *.pyc
+
+#ignores locust load tests
+locust*

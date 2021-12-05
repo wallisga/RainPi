@@ -16,7 +16,7 @@ class connection():
         elif statement == 1:
             cur.execute("INSERT INTO "+ appconfig.sql['data'] +" VALUES (?, ?, ?)", (values['timestamp'], values['amount'], values['pi_id']))
             self.__db_connection.commit()
-        return [[i[0], i[1], i[2]] for i in cur.fetchall()]
+        return [{'timestamp':i[0], 'amount':i[1], 'pi_id':i[2]} for i in cur.fetchall()]
 
     def _disconnect(self):
         self.__db_connection.close()
